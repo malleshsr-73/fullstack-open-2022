@@ -1,66 +1,49 @@
-const App = () => {
-  const course={
-    name :'Half Stack application development',
-    parts:[
-      {
-        name:'Fundementals of React',
-        excercises:10
-      },
-      {
-        name:'Using props to pass data',
-        excercises:7
+import { useState } from "react";
 
-      },
-      {
-        name:'State of a component',
-        excercises:14
-      }
-    ]
-  }
-  return (
-    <div>
-     <Header course={course}></Header>
-     <Content part={course.parts}></Content>
-     <Total total={course.parts}></Total>
-    </div>
-  )
-}
-const Header =(props)=>{
-  console.log(props)
-  return (
-    <div>
-      <h1>
-        {props.course.name}
+var x=0
 
-      </h1>
-    </div>
-  )
-}
-const Part =(props)=>{
-  console.log(props)
+const App=()=>{
+  const Anec=[
+    'If it hurts, do it more often.',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+    'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
+    'Brooks Law: "Adding manpower to a late software project makes it later!"',
+    ' Premature optimization is the root of all evil in programming.',
+    ' Good judgment comes from experience, and experience comes from bad judgment. '    
+  ]
+  const [selec,setSelec]=useState(0)
+  const [votes,setVotes]=useState([0,0,0,0,0,0,0,0,0,0])
+  const [max,setMax]=useState({v:0,a:0})
+
   return(
     <div>
-      {props.part.name} {props.part.excercises}
-    </div>
-  )
-}
-const Content = (props)=>{
-  console.log(props)
-  return(
-    <div>
-      <Part part={props.part[0]}></Part>
-      <Part part={props.part[1]}></Part>
-      <Part part={props.part[2]}></Part>
-    </div>
-  )
-}
-const Total =(props)=>{
-  console.log(props)
-  return(
-    <div>
-    <p>Number of exercises {props.total[0].excercises+props.total[1].excercises+props.total[2].excercises}</p>
-    </div>
-  )
-}
+      <h2>Anectode of the day</h2>
+      <p>{Anec[selec]}</p>
+      <p>{votes[x]}</p>
+      <button onClick={()=>{x=Math.floor(Math.random()*Anec.length);setSelec(x)}}>Next Anectode</button>
+      <br/>
+      <br/>
+      <button onClick={()=>{
+        const copy=[...votes]
+        copy[x]+=1;
+        const maobj={...max}
+        if(copy[x]>max.v)
+        {
+          maobj.v=copy[x];
+          maobj.a=x
+        }
+        setMax(maobj)
+        setVotes(copy)
+      }}>Vote</button>
 
-export default App
+      <h2>Anectode with more votes</h2>
+      <p>{Anec[max.a]}</p>
+      <p>votes{max.v}</p>
+    </div>
+  )
+}
+export default App;
